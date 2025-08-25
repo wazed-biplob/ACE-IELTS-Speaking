@@ -35,14 +35,12 @@ export const IdleScreen = ({
             startPart1(setManualText, setP1Questions, setLoading, setPhase)
           }
         >
-          {loading ? (
-            <ActivityIndicator color="#ffffff" />
-          ) : (
-            <View style={styles.btnContent}>
-              <Ionicons name="play-circle-outline" size={20} color="#fff" />
-              <Text style={styles.btnText}>Start Part 1</Text>
-            </View>
-          )}
+          <View style={styles.btnContent}>
+            <Ionicons name="play-circle-outline" size={20} color="#fff" />
+            <Text style={styles.btnText}>
+              {loading ? <ActivityIndicator color="#ffffff" /> : "Start Part 1"}
+            </Text>
+          </View>
         </Btn>
       </ControlBar>
     </Card>

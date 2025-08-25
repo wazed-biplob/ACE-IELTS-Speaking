@@ -2,6 +2,7 @@
 
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { fetchQuestion } from "./api";
+import { Audio } from "expo-av";
 
 // Starts Part 1
 export const startPart1 = async (
@@ -67,3 +68,98 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
 });
+
+const recordingOptions = {
+  android: {
+    extension: ".m4a",
+    outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+    audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+    sampleRate: 44100,
+    numberOfChannels: 2,
+    bitRate: 128000,
+  },
+  ios: {
+    extension: ".m4a",
+    audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_HIGH,
+    sampleRate: 44100,
+    numberOfChannels: 2,
+    bitRate: 128000,
+    linearPCMBitDepth: 16,
+    linearPCMIsBigEndian: false,
+    linearPCMIsFloat: false,
+  },
+};
+
+export const startRecording = async (setRecording, setUri, recording) => {
+  try {
+    if (recording) {
+      await recording.stopAndUnloadAsync();
+      setRecording(null);
+    }
+
+    const permission = await Audio.requestPermissionsAsync();
+    if (permission.status !== "granted") {
+      alert("Microphone permission required!");
+      return;
+    }
+
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true,
+    });
+
+    const newRecording = new Audio.Recording();
+
+    // ✅ pass the full recordingOptions object
+    await newRecording.prepareToRecordAsync(recordingOptions);
+
+    await newRecording.startAsync();
+
+    setRecording(newRecording);
+    setUri(null);
+    console.log("🎙 Recording started");
+  } catch (err) {
+    console.error("Failed to start recording:", err);
+  }
+};
+
+export const stopRecording = async (recording, setRecording, question) => {
+  try {
+    if (!recording) {
+      console.warn("No active recording to stop");
+      return;
+    }
+
+    console.log("🛑 Stopping...");
+    await recording.stopAndUnloadAsync();
+    const uri = recording.getURI();
+    console.log("✅ Recording stopped. File stored at:", uri);
+
+    // Clear recording state
+    setRecording(null);
+
+    const formData = new FormData();
+    formData.append("question", question);
+    formData.append("file", {
+      uri,
+      type: "audio/m4a",
+      name: "recording.m4a",
+    });
+
+    const response = await fetch("http://192.168.0.104:5000/transcribe-file", {
+      method: "POST",
+      body: formData,
+    });
+
+    // Handle JSON safely
+    const data = await response.json();
+
+    const transcript =
+      data?.results?.channels?.[0]?.alternatives?.[0]?.transcript || "";
+    console.log("Transcript:", transcript);
+
+    return transcript; // Optional: return transcript to caller
+  } catch (err) {
+    console.error("Failed to stop recording:", err);
+  }
+};

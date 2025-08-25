@@ -2,9 +2,21 @@ import React, { useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { IdleScreen } from "./IdleScreen";
 import { Part1 } from "./Part1";
+import { Header } from "./Header";
+
+// const [recording, setRecording] = useState(false);
+// const [audioURL, setAudioURL] = useState(null);
+// const [transcript, setTranscript] = useState("");
+
 // import { Part2 } from "./Part2";
 
 export default function Main() {
+  // const recorderRef = useRef(null);
+  // const streamRef = useRef(null);
+  // const [recording, setRecording] = useState(false);
+  // const [audioURL, setAudioURL] = useState(null);
+  // const [transcript, setTranscript] = useState("");
+
   const [phase, setPhase] = useState("idle");
   const [loading, setLoading] = useState(false);
 
@@ -23,6 +35,9 @@ export default function Main() {
   const [manualText, setManualText] = useState([]);
 
   const [active, setActive] = useState("start");
+
+  const [recording, setRecording] = useState(null);
+  const [uri, setUri] = useState(null);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -47,6 +62,10 @@ export default function Main() {
             active={active}
             setActive={setActive}
             loading={loading}
+            recording={recording}
+            setRecording={setRecording}
+            setUri={setUri}
+            uri={uri}
           />
         )}
 
@@ -64,6 +83,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "gray", // bg-gray-950
     justifyContent: "center",
+    rowGap: 24,
     alignItems: "center",
     paddingVertical: 0,
     paddingHorizontal: 10,

@@ -10,7 +10,12 @@ import { ControlBar } from "./ControlBar";
 
 import { Btn } from "./Btn";
 
-import { onSubmitAnswer } from "../utils/functions";
+import {
+  onSubmitAnswer,
+  startRecording,
+  stopRecording,
+} from "../utils/functions";
+import { Recording } from "expo-av/build/Audio";
 
 export const Part1 = ({
   p1Questions,
@@ -21,6 +26,9 @@ export const Part1 = ({
   active,
   setActive,
   loading,
+  setRecording,
+  setUri,
+  recording,
 }) => {
   return (
     <Card>
@@ -44,6 +52,7 @@ export const Part1 = ({
               onPress={() => {
                 onSubmitAnswer();
                 setActive("stop");
+                startRecording(setRecording, setUri, recording);
               }}
               disabled={active !== "start"}
               icon={() => (
@@ -58,6 +67,7 @@ export const Part1 = ({
               onPress={() => {
                 onSubmitAnswer();
                 setActive("next");
+                stopRecording(recording, setRecording, p1Questions[p1Index]);
               }}
               disabled={active !== "stop"}
               icon={() => (
