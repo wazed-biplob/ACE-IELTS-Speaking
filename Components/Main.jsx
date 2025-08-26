@@ -2,26 +2,18 @@ import React, { useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { IdleScreen } from "./IdleScreen";
 import { Part1 } from "./Part1";
-import { Header } from "./Header";
-
-// const [recording, setRecording] = useState(false);
-// const [audioURL, setAudioURL] = useState(null);
-// const [transcript, setTranscript] = useState("");
+import { Part2 } from "./Part2";
 
 // import { Part2 } from "./Part2";
 
 export default function Main() {
-  // const recorderRef = useRef(null);
-  // const streamRef = useRef(null);
-  // const [recording, setRecording] = useState(false);
-  // const [audioURL, setAudioURL] = useState(null);
-  // const [transcript, setTranscript] = useState("");
-
   const [phase, setPhase] = useState("idle");
+  console.log("phase", phase);
   const [loading, setLoading] = useState(false);
 
   // Part 1
   const [p1Questions, setP1Questions] = useState([]);
+
   const [p1Index, setP1Index] = useState(0);
 
   // Part 2
@@ -29,6 +21,7 @@ export default function Main() {
 
   // Part 3
   const [p3Questions, setP3Questions] = useState([]);
+
   const [p3Index, setP3Index] = useState(0);
 
   // Answer text
@@ -45,10 +38,10 @@ export default function Main() {
         {phase === "idle" && (
           <IdleScreen
             loading={loading}
-            setManualText={setManualText}
             setP1Questions={setP1Questions}
             setLoading={setLoading}
             setPhase={setPhase}
+            phase={phase}
           />
         )}
 
@@ -66,11 +59,25 @@ export default function Main() {
             setRecording={setRecording}
             setUri={setUri}
             uri={uri}
+            setLoading={setLoading}
+            setCueCard={setCueCard}
+            setPhase={setPhase}
+            phase={phase}
           />
         )}
 
-        {/* Uncomment when implementing */}
-        {/* {phase === "part2" && <Part2 key="p2" />} */}
+        {phase === "part2" && (
+          <Part2
+            active={active}
+            setActive={setActive}
+            loading={loading}
+            setRecording={setLoading}
+            setUri={setUri}
+            recording={recording}
+            cueCard={cueCard}
+            phase={phase}
+          />
+        )}
         {/* {phase === "part3" && <Part3 key="p3" />} */}
         {/* {phase === "done" && <Done key="done" />} */}
       </View>

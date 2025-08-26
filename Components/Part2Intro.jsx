@@ -3,34 +3,23 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Card } from "./Card";
 import { ControlBar } from "./ControlBar";
 import { Btn } from "./Btn";
-import { startPart1 } from "../utils/functions";
+import { startPart1, startPart2 } from "../utils/functions";
 import { Ionicons } from "@expo/vector-icons";
 
-export const IdleScreen = ({
-  setP1Questions,
-  setLoading,
-  setPhase,
-  loading,
-}) => {
+export const Part2Intro = () => {
   return (
     <Card>
       <Text style={styles.description}>
-        This simulator follows IELTS Speaking structure. {"\n\n"}You will go
-        through
-        <Text style={styles.bold}> Part 1</Text> (intro)
-        <Text style={styles.bold}> Part 2</Text> (cue card), and
-        <Text style={styles.bold}> Part 3</Text> (discussion).
-        <Text>
-          {"\n\n"}Just speak your answers and record them in each part.
-        </Text>
+        You'll be given a cue card.
+        <Text>{"\n\n"}Just speak your answers and record.</Text>
       </Text>
 
       <ControlBar>
-        <Btn onPress={() => startPart1(setP1Questions, setLoading, setPhase)}>
+        <Btn onPress={() => console.log("ok")}>
           <View style={styles.btnContent}>
             <Ionicons name="play-circle-outline" size={20} color="#fff" />
             <Text style={styles.btnText}>
-              {loading ? <ActivityIndicator color="#ffffff" /> : `Start Part 1`}
+              {loading ? <ActivityIndicator color="#ffffff" /> : `Start Part 2`}
             </Text>
           </View>
         </Btn>

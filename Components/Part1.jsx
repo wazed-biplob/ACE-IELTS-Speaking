@@ -9,13 +9,8 @@ import { TextAreaPanel } from "./TextAreaPanel";
 import { ControlBar } from "./ControlBar";
 
 import { Btn } from "./Btn";
-
-import {
-  onSubmitAnswer,
-  startRecording,
-  stopRecording,
-} from "../utils/functions";
-import { Recording } from "expo-av/build/Audio";
+import { startRecording, stopRecording } from "../utils/recording";
+import { startPart2 } from "../utils/functions";
 
 export const Part1 = ({
   p1Questions,
@@ -25,10 +20,14 @@ export const Part1 = ({
   setManualText,
   active,
   setActive,
+  setLoading,
   loading,
   setRecording,
   setUri,
   recording,
+  setPhase,
+  setCueCard,
+  phase,
 }) => {
   return (
     <Card>
@@ -42,15 +41,11 @@ export const Part1 = ({
             <Text style={styles.questionText}>{p1Questions[p1Index]}</Text>
           </View>
 
-          <TextAreaPanel
-            manualText={manualText}
-            setManualText={setManualText}
-          />
+          <TextAreaPanel phase={phase} />
 
           <ControlBar>
             <Btn
               onPress={() => {
-                onSubmitAnswer();
                 setActive("stop");
                 startRecording(setRecording, setUri, recording);
               }}
@@ -65,7 +60,6 @@ export const Part1 = ({
 
             <Btn
               onPress={() => {
-                onSubmitAnswer();
                 setActive("next");
                 stopRecording(recording, setRecording, p1Questions[p1Index]);
               }}
@@ -82,7 +76,7 @@ export const Part1 = ({
               onPress={() => {
                 setActive("start");
                 if (p1Index < p1Questions.length - 1) setP1Index(p1Index + 1);
-                else startPart2();
+                else startPart2(setLoading, setPhase, setCueCard);
               }}
               disabled={active !== "next"}
               icon={() => (

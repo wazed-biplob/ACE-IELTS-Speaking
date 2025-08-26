@@ -1,17 +1,18 @@
 import { View, Text } from "react-native";
 import Main from "../Components/Main";
-import { Header } from "../Components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "gray",
       }}
     >
       <Main />
-    </View>
+    </SafeAreaView>
   );
 }
