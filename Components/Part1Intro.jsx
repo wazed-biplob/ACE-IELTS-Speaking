@@ -1,48 +1,68 @@
-// TextAreaPanel.js
-import { View, Text, StyleSheet } from "react-native";
+// IdleScreen.js
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Card } from "./Card";
+import { ControlBar } from "./ControlBar";
+import { Btn } from "./Btn";
+import { startPart1 } from "../utils/functions";
+import { Ionicons } from "@expo/vector-icons";
 
-export const Part1Intro = () => {
+export const Part1Intro = ({
+  setP1Questions,
+  setLoading,
+  setPhase,
+  loading,
+}) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.panel}>
-        <Text style={styles.label}>Your Answer{"\n"}</Text>
-        <Text style={styles.textarea}>
-          1. Press The 'Start' Button and speak your answer. {"\n\n"}2. Only
-          After you press 'Start', recording begins and the 'Start' Button
-          becomes disabled.{"\n\n"}3. Then 'Stop' Button will be enabled and
-          when you finish speaking, Press 'Stop'.{"\n\n"}4. Then 'Next' will be
-          enabled, Press 'Next' to go to the next question."
+    <Card>
+      <Text style={styles.description}>
+        This simulator follows IELTS Speaking structure. {"\n\n"}You will go
+        through
+        <Text style={styles.bold}> Part 1</Text> (intro),
+        <Text style={styles.bold}> Part 2</Text> (cue card) and
+        <Text style={styles.bold}> Part 3</Text> (discussion).
+        <Text>
+          {"\n\n"}Just speak your answers and record them in each part.
         </Text>
-      </View>
-    </View>
+      </Text>
+
+      <ControlBar>
+        <Btn
+          onPress={async () =>
+            await startPart1(setP1Questions, setLoading, setPhase)
+          }
+        >
+          <View style={styles.btnContent}>
+            <Ionicons name="play-circle-outline" size={20} color="#fff" />
+            <Text style={styles.btnText}>
+              {loading ? <ActivityIndicator color="#ffffff" /> : `Start Part 1`}
+            </Text>
+          </View>
+        </Btn>
+      </ControlBar>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 12, // space-y-3, RN 0.71+
-    marginTop: 10,
+  description: {
+    color: "#d1d5db", // text-gray-300
+    marginBottom: 16,
+    fontSize: 16,
+    lineHeight: 26,
+    textAlign: "left",
   },
-  panel: {
-    backgroundColor: "rgba(17, 24, 39, 0.6)", // bg-gray-900/60
-    borderRadius: 12, // rounded-xl
-    padding: 12, // p-3
-    borderWidth: 1,
-    borderColor: "#374151", // border-gray-700
+  bold: {
+    fontWeight: "bold",
+    color: "#fff",
   },
-  label: {
-    fontSize: 12, // text-xs
-    textTransform: "uppercase",
-    color: "#9ca3af", // text-gray-400
-    marginBottom: 4,
+  btnContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  textarea: {
-    color: "#f3f4f6", // text-gray-100
-    minHeight: 120, // min-h-[120px]
-    textAlignVertical: "top", // top align text in multiline
-    backgroundColor: "transparent",
-    padding: 0,
+  btnText: {
+    color: "#fff",
+    marginLeft: 8,
+    fontSize: 16,
   },
 });
-
-export default Part1Intro;

@@ -1,11 +1,11 @@
 // IdleScreen.js
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { Card } from "./Card";
 import { ControlBar } from "./ControlBar";
 import { Btn } from "./Btn";
 
 import { Ionicons } from "@expo/vector-icons";
-import { startPart2 } from "../utils/functions";
+import { startPart2 } from '../utils/functions';
 
 export const Part2Intro = ({ setLoading, setPhase, setCueCard, loading }) => {
   return (
@@ -30,7 +30,11 @@ export const Part2Intro = ({ setLoading, setPhase, setCueCard, loading }) => {
       </View>
 
       <ControlBar>
-        <Btn onPress={() => startPart2(setLoading, setPhase, setCueCard)}>
+        <Btn
+          onPress={async () =>
+            await startPart2(setLoading, setPhase, setCueCard)
+          }
+        >
           <View style={styles.btnContent}>
             <Ionicons name="play-circle-outline" size={20} color="#fff" />
             <Text style={styles.btnText}>

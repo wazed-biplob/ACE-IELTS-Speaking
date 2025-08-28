@@ -15,6 +15,7 @@ export default function RecordingBar({
   recording,
   question,
   phase,
+  setPhase,
 }) {
   const [elapsed, setElapsed] = useState(0); // in ms
   const [running, setRunning] = useState(false);
@@ -76,6 +77,7 @@ export default function RecordingBar({
       <View style={styles.buttons}>
         <Pressable
           onPress={async () => {
+            start();
             await startRecording(setRecording, setUri, recording);
           }}
           style={[styles.btn, running && styles.btnDisabled]}
@@ -85,14 +87,15 @@ export default function RecordingBar({
         </Pressable>
 
         <Pressable
-          onPress={async () =>
-            await stopRecording(recording, setRecording, question, phase)
-          }
+          onPress={async () => {
+            stop();
+            await stopRecording(recording, setRecording, question, phase);
+          }}
           style={styles.btn}
         >
           <Text style={styles.btnText}>Stop</Text>
         </Pressable>
-        <Pressable onPress={stop} style={styles.btn}>
+        <Pressable onPress={() => setPhase("part3Intro")} style={styles.btn}>
           <Text style={styles.btnText}>Submit</Text>
         </Pressable>
       </View>
@@ -109,7 +112,7 @@ function formatMmSs(ms) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    gap: 8,
+    gap: 18,
     padding: 12,
     borderRadius: 16,
     backgroundColor: "#f4f4f5",

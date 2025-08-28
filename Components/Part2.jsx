@@ -1,28 +1,24 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Btn } from "./Btn";
+
 import { Card } from "./Card";
-import { ControlBar } from "./ControlBar";
-import TextAreaPanel from "./Part1Intro";
-import { startRecording, stopRecording } from "../utils/recording";
+
 import RecordingBar from "./RecordingBar";
 import { Spinner } from "../utils/functions";
 
 // Make sure Spinner, startRecording, stopRecording, startPart3, onSubmitAnswer are imported
 
 export const Part2 = ({
-  active,
-  setActive,
   loading,
   setRecording,
   setUri,
   recording,
   cueCard,
   phase,
+  setPhase,
 }) => {
-  const lines = cueCard?.raw
-    ?.split("\n")
+  const lines = (cueCard?.raw || "")
+    .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
 
@@ -46,9 +42,9 @@ export const Part2 = ({
           <View style={styles.container}>
             <Text style={styles.title}>{firstLine}</Text>
           </View>
-          <Text style={{ color: "white" }}>
+          {/* <Text style={{ color: "white" }}>
             {"\n"}You should say : {"\n"}
-          </Text>
+          </Text> */}
           <FlatList
             data={bullets}
             keyExtractor={(item, index) => index.toString()}
@@ -68,55 +64,6 @@ export const Part2 = ({
             {lastLine}
           </Text>
 
-          <ControlBar>
-            {/* <Btn
-              onPress={() => {
-                onSubmitAnswer();
-                setActive("stop");
-                startRecording(setRecording, setUri, recording);
-              }}
-              disabled={active !== "start"}
-              icon={() => (
-                <Ionicons name="play-circle-outline" size={18} color="#fff" />
-              )}
-              variant="success"
-            >
-              Start
-            </Btn> */}
-
-            {/* <Btn
-              onPress={() => {
-                onSubmitAnswer();
-                setActive("next");
-                stopRecording(recording, setRecording, p1Questions[p1Index]);
-              }}
-              disabled={active !== "stop"}
-              icon={() => (
-                <Ionicons name="stop-circle-outline" size={18} color="#fff" />
-              )}
-              variant="danger"
-            >
-              Stop
-            </Btn> */}
-
-            {/* <Btn
-              onPress={() => {
-                setActive("start");
-              }}
-              disabled={active !== "next"}
-              icon={() => (
-                <Ionicons
-                  name="play-skip-forward-outline"
-                  size={18}
-                  color="#fff"
-                />
-              )}
-              variant="primary"
-            >
-              Next
-            </Btn> */}
-          </ControlBar>
-
           <View style={{ marginTop: 16 }}>
             <RecordingBar
               durationMs={120000} // 2 minutes
@@ -126,6 +73,7 @@ export const Part2 = ({
               recording={recording}
               question={cueCard.raw}
               phase={phase}
+              setPhase={setPhase}
             />
           </View>
         </View>

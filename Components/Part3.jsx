@@ -4,17 +4,17 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Card } from "./Card";
 
-import { Part1Instruction } from "./Part1Instruction";
+import { Part1Instruction, TextAreaPanel } from "./Part1Instruction";
 
 import { ControlBar } from "./ControlBar";
 
 import { Btn } from "./Btn";
 import { startRecording, stopRecording } from "../utils/recording";
 
-export const Part1 = ({
-  p1Questions,
-  p1Index,
-  setP1Index,
+export const Part3 = ({
+  p3Questions,
+  p3Index,
+  setP3Index,
   manualText,
   setManualText,
   active,
@@ -30,17 +30,15 @@ export const Part1 = ({
 }) => {
   return (
     <Card>
-      <Text style={styles.heading}>Part 1 – Introduction & Interview</Text>
+      <Text style={styles.heading}>Part 3 – Discussion</Text>
 
       {loading && <ActivityIndicator color="#fff" size="large" />}
 
-      {!loading && p1Questions.length > 0 && (
+      {!loading && p3Questions.length > 0 && (
         <View style={styles.container}>
           <View style={styles.questionBox}>
-            <Text style={styles.questionText}>{p1Questions[p1Index]}</Text>
+            <Text style={styles.questionText}>{p3Questions[p3Index]}</Text>
           </View>
-
-          <Part1Instruction />
 
           <ControlBar>
             <Btn
@@ -63,7 +61,7 @@ export const Part1 = ({
                 await stopRecording(
                   recording,
                   setRecording,
-                  p1Questions[p1Index],
+                  p3Questions[p3Index],
                   phase
                 );
               }}
@@ -79,8 +77,8 @@ export const Part1 = ({
             <Btn
               onPress={() => {
                 setActive("start");
-                if (p1Index < p1Questions.length - 1) setP1Index(p1Index + 1);
-                else setPhase("part2Intro");
+                if (p3Index < p3Questions.length - 1) setP3Index(p3Index + 1);
+                else alert("finished");
               }}
               disabled={active !== "next"}
               icon={() => (

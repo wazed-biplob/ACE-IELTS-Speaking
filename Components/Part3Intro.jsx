@@ -3,14 +3,15 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Card } from "./Card";
 import { ControlBar } from "./ControlBar";
 import { Btn } from "./Btn";
-import { startPart1 } from "../utils/functions";
+import { startPart1, startPart3 } from "../utils/functions";
 import { Ionicons } from "@expo/vector-icons";
 
-export const IdleScreen = ({
-  setP1Questions,
+export const Part3Intro = ({
+  loading,
+  setP3Questions,
   setLoading,
   setPhase,
-  loading,
+  phase,
 }) => {
   return (
     <Card>
@@ -28,13 +29,13 @@ export const IdleScreen = ({
       <ControlBar>
         <Btn
           onPress={async () =>
-            await startPart1(setP1Questions, setLoading, setPhase)
+            await startPart3(setP3Questions, setLoading, setPhase)
           }
         >
           <View style={styles.btnContent}>
             <Ionicons name="play-circle-outline" size={20} color="#fff" />
             <Text style={styles.btnText}>
-              {loading ? <ActivityIndicator color="#ffffff" /> : `Start Part 1`}
+              {loading ? <ActivityIndicator color="#ffffff" /> : `Start Part 3`}
             </Text>
           </View>
         </Btn>

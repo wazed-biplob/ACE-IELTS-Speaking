@@ -6,14 +6,27 @@ import { fetchQuestion } from "./api";
 // Starts Part 1
 export const startPart1 = async (setP1Questions, setLoading, setPhase) => {
   setLoading(true);
-  await fetchQuestion(1, setP1Questions, setLoading); // fetches questions before rendering Part 1 UI
+  await fetchQuestion(1, setP1Questions, () => {}, setLoading); // fetches questions before rendering Part 1 UI
   setPhase("part1"); // setting phase renders Part 1 UI
 };
 
 export const startPart2 = async (setLoading, setPhase, setCueCard) => {
   setLoading(true);
-  await fetchQuestion(2, () => {}, setLoading, setCueCard); // fetches questions before rendering Part 1 UI
+  await fetchQuestion(
+    2,
+    () => {},
+    () => {},
+    setLoading,
+    setCueCard
+  ); // fetches questions before rendering Part 2 UI
   setPhase("part2");
+};
+
+export const startPart3 = async (setP3Questions, setLoading, setPhase) => {
+  console.log("ok");
+  setLoading(true);
+  await fetchQuestion(3, () => {}, setP3Questions, setLoading); // fetches questions before rendering Part 3 UI
+  setPhase("part3");
 };
 
 // Utility function like clsx (not as important in RN, but still usable for conditional strings)

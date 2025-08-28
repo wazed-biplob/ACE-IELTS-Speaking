@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { IdleScreen } from "./IdleScreen";
+import { Part1Intro } from "./Part1Intro";
 import { Part1 } from "./Part1";
 import { Part2 } from "./Part2";
 import { Part2Intro } from "./Part2Intro";
+import { Part3Intro } from "./Part3Intro";
+import { Part3 } from "./Part3";
 
 export default function Main() {
   const [phase, setPhase] = useState("idle");
@@ -35,7 +37,7 @@ export default function Main() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.innerContainer}>
         {phase === "idle" && (
-          <IdleScreen
+          <Part1Intro
             loading={loading}
             setP1Questions={setP1Questions}
             setLoading={setLoading}
@@ -83,9 +85,38 @@ export default function Main() {
             recording={recording}
             cueCard={cueCard}
             phase={phase}
+            setPhase={setPhase}
           />
         )}
-        {/* {phase === "part3" && <Part3 key="p3" />} */}
+        {phase === "part3Intro" && (
+          <Part3Intro
+            loading={loading}
+            setP3Questions={setP3Questions}
+            setLoading={setLoading}
+            setPhase={setPhase}
+            phase={phase}
+          />
+        )}
+        {phase === "part3" && (
+          <Part3
+            p3Questions={p3Questions}
+            p3Index={p3Index}
+            setP3Index={setP3Index}
+            manualText={manualText}
+            setManualText={setManualText}
+            active={active}
+            setActive={setActive}
+            loading={loading}
+            recording={recording}
+            setRecording={setRecording}
+            setUri={setUri}
+            uri={uri}
+            setLoading={setLoading}
+            setCueCard={setCueCard}
+            setPhase={setPhase}
+            phase={phase}
+          />
+        )}
         {/* {phase === "done" && <Done key="done" />} */}
       </View>
     </ScrollView>
