@@ -1,55 +1,59 @@
 import { fetchTranscription } from "./api";
 import { recordingOptions } from "./constants";
 import { Audio } from "expo-av";
-export const startRecording = async (setRecording, setUri, recording) => {
-  try {
-    if (recording) {
-      await recording.stopAndUnloadAsync();
-      setRecording(null);
-    }
 
+// module-scoped variable (like a singleton recorder)
+let recordingInstance = null;
+
+export async function startRecording(setRecording, setUri, recording) {
+  try {
+    // ask permission
     const permission = await Audio.requestPermissionsAsync();
     if (permission.status !== "granted") {
-      alert("Microphone permission required!");
-      return;
+      throw new Error("Microphone permission is required.");
     }
 
+    // set audio mode
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: true,
       playsInSilentModeIOS: true,
     });
 
-    const newRecording = new Audio.Recording();
+    // create and start recording
+    const { recording } = await Audio.Recording.createAsync(
+      Audio.RecordingOptionsPresets.HIGH_QUALITY
+    );
 
-    // ✅ pass the full recordingOptions object
-    await newRecording.prepareToRecordAsync(recordingOptions);
-
-    await newRecording.startAsync();
-
-    setRecording(newRecording);
-    setUri(null);
+    recordingInstance = recording;
     console.log("🎙 Recording started");
+
+    return recording; // return in case caller wants reference
   } catch (err) {
     console.error("Failed to start recording:", err);
+    return null;
   }
-};
+}
 
-export const stopRecording = async (recording, setRecording, question) => {
+export async function stopRecording(recording, setRecording, question, phase) {
+  if (!recordingInstance) {
+    console.warn("⚠️ No recording is active");
+    return null;
+  }
+
   try {
-    if (!recording) {
-      console.warn("No active recording to stop");
-      return;
-    }
-
     console.log("🛑 Stopping...");
-    await recording.stopAndUnloadAsync();
-    const uri = recording.getURI();
-    console.log("✅ Recording stopped. File stored at:", uri);
+    await recordingInstance.stopAndUnloadAsync();
 
-    setRecording(null);
+    const uri = recordingInstance.getURI();
+    console.log("✅ Recording stopped. File saved at:", uri);
 
-    fetchTranscription(question, uri);
+    // reset instance
+    const finished = recordingInstance;
+    recordingInstance = null;
+    await fetchTranscription(question, uri, phase);
+    return uri; // return file path
   } catch (err) {
     console.error("Failed to stop recording:", err);
+    return null;
   }
-};
+}

@@ -1,7 +1,7 @@
 import { splitQuestions } from "./splitQuestion";
 import { parseCueCard } from "./splitQuestion";
 
-const baseURL = "http://192.168.0.104:5000";
+const baseURL = "http://192.168.0.102:5000";
 
 export const fetchQuestion = async (
   part,
@@ -30,9 +30,9 @@ export const fetchQuestion = async (
   }
 };
 
-export const fetchTranscription = async (question, uri) => {
+export const fetchTranscription = async (question, uri, phase) => {
   const formData = new FormData();
-
+  formData.append("phase", phase);
   formData.append("question", question);
   formData.append("file", {
     uri,
@@ -46,8 +46,5 @@ export const fetchTranscription = async (question, uri) => {
   });
 
   const data = await response.json();
-
-  const transcript =
-    data?.results?.channels?.[0]?.alternatives?.[0]?.transcript || "";
-  console.log("Transcript:", transcript);
+  console.log("data", data?.transcript);
 };

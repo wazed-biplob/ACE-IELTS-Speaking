@@ -3,12 +3,11 @@ import { StyleSheet, View, ScrollView } from "react-native";
 import { IdleScreen } from "./IdleScreen";
 import { Part1 } from "./Part1";
 import { Part2 } from "./Part2";
-
-// import { Part2 } from "./Part2";
+import { Part2Intro } from "./Part2Intro";
 
 export default function Main() {
   const [phase, setPhase] = useState("idle");
-  console.log("phase", phase);
+
   const [loading, setLoading] = useState(false);
 
   // Part 1
@@ -63,6 +62,14 @@ export default function Main() {
             setCueCard={setCueCard}
             setPhase={setPhase}
             phase={phase}
+          />
+        )}
+        {phase === "part2Intro" && (
+          <Part2Intro
+            setLoading={setLoading}
+            setPhase={setPhase}
+            setCueCard={setCueCard}
+            loading={loading}
           />
         )}
 

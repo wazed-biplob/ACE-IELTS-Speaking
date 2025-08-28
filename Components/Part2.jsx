@@ -4,9 +4,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Btn } from "./Btn";
 import { Card } from "./Card";
 import { ControlBar } from "./ControlBar";
-import TextAreaPanel from "./TextAreaPanel";
+import TextAreaPanel from "./Part1Intro";
 import { startRecording, stopRecording } from "../utils/recording";
-import LiveRecordingBar from "./LiveRecordingBar";
+import RecordingBar from "./RecordingBar";
+import { Spinner } from "../utils/functions";
 
 // Make sure Spinner, startRecording, stopRecording, startPart3, onSubmitAnswer are imported
 
@@ -66,9 +67,9 @@ export const Part2 = ({
             {"\n"}
             {lastLine}
           </Text>
-          <TextAreaPanel phase={phase} />
+
           <ControlBar>
-            <Btn
+            {/* <Btn
               onPress={() => {
                 onSubmitAnswer();
                 setActive("stop");
@@ -81,9 +82,9 @@ export const Part2 = ({
               variant="success"
             >
               Start
-            </Btn>
+            </Btn> */}
 
-            <Btn
+            {/* <Btn
               onPress={() => {
                 onSubmitAnswer();
                 setActive("next");
@@ -96,9 +97,9 @@ export const Part2 = ({
               variant="danger"
             >
               Stop
-            </Btn>
+            </Btn> */}
 
-            <Btn
+            {/* <Btn
               onPress={() => {
                 setActive("start");
               }}
@@ -113,15 +114,19 @@ export const Part2 = ({
               variant="primary"
             >
               Next
-            </Btn>
+            </Btn> */}
           </ControlBar>
-          <View style={{ padding: 16 }}>
-            <View style={{ padding: 16 }}>
-              <LiveRecordingBar
-                durationMs={120000} // 2 minutes
-                onComplete={() => console.log("Recording finished (2:00)")}
-              />
-            </View>
+
+          <View style={{ marginTop: 16 }}>
+            <RecordingBar
+              durationMs={120000} // 2 minutes
+              onComplete={() => console.log("Recording finished (2:00)")}
+              setRecording={setRecording}
+              setUri={setUri}
+              recording={recording}
+              question={cueCard.raw}
+              phase={phase}
+            />
           </View>
         </View>
       )}

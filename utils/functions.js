@@ -12,7 +12,6 @@ export const startPart1 = async (setP1Questions, setLoading, setPhase) => {
 
 export const startPart2 = async (setLoading, setPhase, setCueCard) => {
   setLoading(true);
-
   await fetchQuestion(2, () => {}, setLoading, setCueCard); // fetches questions before rendering Part 1 UI
   setPhase("part2");
 };

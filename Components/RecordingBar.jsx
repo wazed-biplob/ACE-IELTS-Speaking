@@ -1,8 +1,21 @@
 // LiveRecordingBar.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  startRecording,
+  stopPart2Recording,
+  stopRecording,
+} from "../utils/recording";
 
-export default function LiveRecordingBar({ durationMs = 120000, onComplete }) {
+export default function RecordingBar({
+  durationMs = 120000,
+  onComplete,
+  setRecording,
+  setUri,
+  recording,
+  question,
+  phase,
+}) {
   const [elapsed, setElapsed] = useState(0); // in ms
   const [running, setRunning] = useState(false);
   const intervalRef = useRef(null);
@@ -62,15 +75,25 @@ export default function LiveRecordingBar({ durationMs = 120000, onComplete }) {
 
       <View style={styles.buttons}>
         <Pressable
-          onPress={start}
+          onPress={async () => {
+            await startRecording(setRecording, setUri, recording);
+          }}
           style={[styles.btn, running && styles.btnDisabled]}
           disabled={running}
         >
           <Text style={styles.btnText}>Start</Text>
         </Pressable>
 
+        <Pressable
+          onPress={async () =>
+            await stopRecording(recording, setRecording, question, phase)
+          }
+          style={styles.btn}
+        >
+          <Text style={styles.btnText}>Stop</Text>
+        </Pressable>
         <Pressable onPress={stop} style={styles.btn}>
-          <Text style={styles.btnText}>{running ? "Stop" : "Reset"}</Text>
+          <Text style={styles.btnText}>Submit</Text>
         </Pressable>
       </View>
     </View>

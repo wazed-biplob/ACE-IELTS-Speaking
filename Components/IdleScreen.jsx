@@ -17,8 +17,8 @@ export const IdleScreen = ({
       <Text style={styles.description}>
         This simulator follows IELTS Speaking structure. {"\n\n"}You will go
         through
-        <Text style={styles.bold}> Part 1</Text> (intro)
-        <Text style={styles.bold}> Part 2</Text> (cue card), and
+        <Text style={styles.bold}> Part 1</Text> (intro),
+        <Text style={styles.bold}> Part 2</Text> (cue card) and
         <Text style={styles.bold}> Part 3</Text> (discussion).
         <Text>
           {"\n\n"}Just speak your answers and record them in each part.
@@ -26,7 +26,11 @@ export const IdleScreen = ({
       </Text>
 
       <ControlBar>
-        <Btn onPress={() => startPart1(setP1Questions, setLoading, setPhase)}>
+        <Btn
+          onPress={async () =>
+            await startPart1(setP1Questions, setLoading, setPhase)
+          }
+        >
           <View style={styles.btnContent}>
             <Ionicons name="play-circle-outline" size={20} color="#fff" />
             <Text style={styles.btnText}>

@@ -1,8 +1,8 @@
 // TextAreaPanel.js
 import { View, Text, StyleSheet } from "react-native";
 
-export const TextAreaPanel = ({ phase }) => {
-  return phase === "part1" ? (
+export const Part1Intro = () => {
+  return (
     <View style={styles.container}>
       <View style={styles.panel}>
         <Text style={styles.label}>Your Answer{"\n"}</Text>
@@ -15,21 +15,6 @@ export const TextAreaPanel = ({ phase }) => {
         </Text>
       </View>
     </View>
-  ) : (
-    <>
-      <View style={styles.container}>
-        <View style={styles.panel}>
-          <Text style={styles.label}>Your Answer{"\n"}</Text>
-          <Text style={styles.textarea}>
-            You are given 1 minute to prepare. {"\n\n"}During this minute, you
-            can make notes on paper (which the examiner provides). {"\n\n"}Then,
-            you must speak continuously for 1–2 minutes on the topic. {"\n\n"}
-            After that, I will ask you one or two short follow-up questions
-            related to the topic. {"\n\n"}Then we'll move to Part 3.
-          </Text>
-        </View>
-      </View>
-    </>
   );
 };
 
@@ -60,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TextAreaPanel;
+export default Part1Intro;
